@@ -11,7 +11,7 @@ body {
     padding: 40px 20px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* 改为flex-start以支持滚动 */
 }
 
 .container {
@@ -21,6 +21,36 @@ body {
     border-radius: 20px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
     overflow: hidden;
+    max-height: 90vh; /* 限制容器最大高度 */
+    overflow-y: auto; /* 添加垂直滚动条 */
+    
+    /* 自定义滚动条样式 */
+    scrollbar-width: thin;
+    scrollbar-color: #3498db #f1f1f1;
+}
+
+/* 自定义滚动条样式 - Webkit浏览器 (Chrome, Safari, Edge) */
+.container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: #3498db;
+    border-radius: 4px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+    background: #2980b9;
+}
+
+/* 平滑滚动 */
+html {
+    scroll-behavior: smooth;
 }
 
 /* 名片部分 */
@@ -111,6 +141,9 @@ body {
     justify-content: center;
     padding: 25px 30px;
     background: #f8f9fa;
+    position: sticky; /* 粘性定位 */
+    top: 0; /* 粘在顶部 */
+    z-index: 10; /* 确保在其他内容之上 */
 }
 
 .divider-line {
@@ -136,6 +169,11 @@ body {
     border-radius: 0;
     overflow: hidden;
     transition: all 0.3s ease;
+    border-bottom: 1px solid #eee; /* 添加分隔线 */
+}
+
+.work-item:last-child {
+    border-bottom: none; /* 最后一个作品项无边框 */
 }
 
 .work-image {
@@ -161,6 +199,36 @@ body {
     color: #6c757d;
     line-height: 1.5;
     font-size: 0.95rem;
+}
+
+/* 滚动到顶部按钮 */
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.scroll-to-top:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+.scroll-to-top.show {
+    display: flex;
 }
 
 /* 响应式设计 */
@@ -212,5 +280,14 @@ body {
     
     .work-info h3 {
         font-size: 1.2rem;
+    }
+    
+    /* 手机端滚动到顶部按钮调整 */
+    .scroll-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
     }
 }
